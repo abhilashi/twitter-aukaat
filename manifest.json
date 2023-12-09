@@ -4,7 +4,7 @@
   "description": "Auqaat hai kya?",
   "version": "1.0",
 
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "tabs", "storage", "https://twitter.com/*"],
 
   "browser_action": {
     "default_popup": "popup.html",
@@ -15,10 +15,15 @@
 
   "content_scripts": [
     {
-      "matches": ["https://twitter.com/*"],
-      "js": ["content.js"]
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
+  "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+  },
 
   "icons": {
     "128": "images/logo.png"
