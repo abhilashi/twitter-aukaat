@@ -34,6 +34,12 @@ function addHandleToList(handle) {
 
     if (!isHandleInList(handle, list)) {
         var listItem = document.createElement('li');
+
+        /*
+        chrome.storage.local.get(handle, function(result) {
+            let stored = result.aukaat || {};
+            console.log("Aukaat fetched");
+        });*/
         listItem.textContent = handle + ": 15"; // Initial value
 
         addButtonsToListItem(listItem);
@@ -46,17 +52,6 @@ function adjustAukaat(listItem, adjustment) {
     var parts = listItem.textContent.split(": ");
     var currentAukaat = parseInt(parts[1], 10);
     var newAukaat = currentAukaat + adjustment;
-
-    /*
-    chrome.storage.sync.get(['aukaat'], function(result) {
-        let storedData = result.aukaat || {};
-        storedData[parts[0]] = newAukaat;
-
-        chrome.storage.sync.set({ 'aukaat': storedData }, function() {
-            console.log(`Aukaat for handle ${handleName} saved`);
-        });
-    });
-    */
 
     console.log("adjustAukaat");
 
