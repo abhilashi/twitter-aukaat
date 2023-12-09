@@ -2,17 +2,9 @@
 // It should find Twitter profiles and extract the necessary information.
 //
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log('Message received:', message);
-    changeFontSizeForUserTweets('a');
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-});
-
 function changeFontSizeForUserTweets(username) {
     chrome.storage.sync.get(['aukaat'], function (result) {
-        const storedData = result.aukaat || {};
+        const localAukaat = result.aukaat || {};
         var tweets = document.querySelectorAll('article'); 
         console.log("running changeFontSize");
 
@@ -25,6 +17,7 @@ function changeFontSizeForUserTweets(username) {
             let handle = tweet.querySelector("a").getAttribute("href").substring(1);
             console.log(text);
             console.log(handle);
+            chrome.runtime.sendMessage({ type: "FoundHandle", data: handle });
         });
 
     });

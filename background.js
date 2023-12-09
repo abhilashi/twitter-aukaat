@@ -7,9 +7,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.tabs.executeScript(tabId, { file: 'content.js' }, () => {
             console.log('Content script injected');
             // Retrieve categorized handles from localStorage
-            const storedData = JSON.parse(localStorage.getItem("aukaat")) || {};
+            const localAukaat = JSON.parse(localStorage.getItem("aukaat")) || {};
 
-            console.log('Stored Data:', storedData);
+            console.log('Stored Data:', localAukaat);
 
             chrome.tabs.sendMessage(tabId, { action: "applyAukaat" });
         });
