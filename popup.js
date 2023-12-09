@@ -10,6 +10,24 @@ function isHandleInList(handle, list) {
     return false; // Handle not found in the list
 }
 
+function addButtonsToListItem(listItem) {
+    // Create plus button
+    var plusButton = document.createElement('button');
+    plusButton.textContent = '+';
+    plusButton.onclick = function() { 
+        console.log("clicked plus button");
+        adjustAukaat(listItem, 3); 
+    }; // Increment
+
+    // Create minus button
+    var minusButton = document.createElement('button');
+    minusButton.textContent = '-';
+    minusButton.onclick = function() { adjustAukaat(listItem, -3); }; // Decrement
+
+    // Append buttons to list item
+    listItem.appendChild(plusButton);
+    listItem.appendChild(minusButton);
+}
 
 function addHandleToList(handle) {
     var list = document.getElementById('handlesList');
@@ -18,20 +36,7 @@ function addHandleToList(handle) {
         var listItem = document.createElement('li');
         listItem.textContent = handle + ": 15"; // Initial value
 
-        // Create plus button
-        var plusButton = document.createElement('button');
-        plusButton.textContent = '+';
-        plusButton.onclick = function() { adjustAukaat(listItem, 3); }; // Increment
-
-        // Create minus button
-        var minusButton = document.createElement('button');
-        minusButton.textContent = '-';
-        minusButton.onclick = function() { adjustAukaat(listItem, -3); }; // Decrement
-
-        // Append buttons to list item
-        listItem.appendChild(plusButton);
-        listItem.appendChild(minusButton);
-
+        addButtonsToListItem(listItem);
         // Append list item to list
         list.appendChild(listItem);
     }
@@ -42,20 +47,19 @@ function adjustAukaat(listItem, adjustment) {
     var currentAukaat = parseInt(parts[1], 10);
     var newAukaat = currentAukaat + adjustment;
 
+    console.log("adjustAukaat");
+
     listItem.textContent = parts[0] + ": " + newAukaat;
-    // Create plus button
-    var plusButton = document.createElement('button');
-    plusButton.textContent = '+';
-    plusButton.onclick = function() { adjustAukaat(listItem, 3); }; // Increment
 
-    // Create minus button
-    var minusButton = document.createElement('button');
-    minusButton.textContent = '-';
-    minusButton.onclick = function() { adjustAukaat(listItem, -3); }; // Decrement
+    console.log("sending message to adjustAukaat");
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, 
+            {action: "AdjustAukaat", data: {"handle": parts[0], "aukaat": newAukaat}}
+        );
+    });
 
-    // Append buttons to list item
-    listItem.appendChild(plusButton);
-    listItem.appendChild(minusButton);
+    // chrome.runtime.sendMessage({ type: "AdjustAukaat", data: parts[0]});
+    addButtonsToListItem(listItem);
 }
 
 // Example usage
