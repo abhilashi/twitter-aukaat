@@ -16,6 +16,25 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 });
 
+// background.js
+
+const Gun = window.Gun;
+gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
+
+// Function to update scores
+function updateAukaat(username, aukaat) {
+    gun.get('loserBoard').get(username).put({ username, aukaat});
+}
+
+// Listener for messages from popup or content scripts
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "AdjustAukaat") {
+        updateAukaat(request.handle, request.aukaat);
+        sendResponse({ status: "Score updated" });
+    }
+});
+
+
 // detect tab change
 chrome.tabs.onActivated.addListener((tabId, changeInfo, tab) => {
     console.log('Tab activated');

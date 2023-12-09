@@ -48,12 +48,13 @@ function addHandleToList(handle) {
     }
 }
 
+
 function adjustAukaat(listItem, adjustment) {
     var parts = listItem.textContent.split(": ");
     var currentAukaat = parseInt(parts[1], 10);
     var newAukaat = currentAukaat + adjustment;
 
-    console.log("adjustAukaat");
+    console.log("adjustAukaat function called");
 
     listItem.textContent = parts[0] + ": " + newAukaat;
 

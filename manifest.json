@@ -12,6 +12,7 @@
       "128": "images/logo.png"
     }
   },
+  "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self';",
 
   "content_scripts": [
     {
@@ -24,7 +25,6 @@
       "scripts": ["background.js"],
       "persistent": false
   },
-
   "icons": {
     "128": "images/logo.png"
   }
