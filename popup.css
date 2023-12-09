@@ -2,3 +2,7 @@ body {
     width: 256px; /* Set your desired width */
     /* Other styling */
 }
+
+button {
+    margin-left: 10px;
+}

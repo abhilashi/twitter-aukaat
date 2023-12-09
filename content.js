@@ -15,6 +15,8 @@ function changeFontSizeForUserTweets(username) {
             let photo = tweet.querySelector("div[data-testid='tweetPhoto']")
             let video = tweet.querySelector("div[data-testid='videoComponent']")
             let handle = tweet.querySelector("a").getAttribute("href").substring(1);
+            let importance = localAukaat[handle];
+
             console.log(text);
             console.log(handle);
             chrome.runtime.sendMessage({ type: "FoundHandle", data: handle });
