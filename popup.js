@@ -69,6 +69,30 @@ function adjustAukaat(listItem, adjustment) {
     addButtonsToListItem(listItem);
 }
 
+document.getElementById('loserButton').addEventListener('click', function() {
+    // Initialize an empty array to hold the formatted loser data
+    let losersData = [];
+
+    // Fetch the list of losers from Gun DB
+    // Replace with your actual Gun DB instance URL
+    var gun = Gun('https://gun-manhattan.herokuapp.com/gun');
+    var loserBoard = gun.get('loserBoard');
+
+    loserBoard.map().once(function(data, username) {
+        // Check if the data is valid and has the required properties
+        if (data && data.username && data.aukaat) {
+            losersData.push(`${data.username}: ${data.aukaat}`);
+        }
+
+        // Display the list in an alert dialog
+        if (losersData.length > 0) {
+            alert('Losers:\n' + losersData.join('\n'));
+        } else {
+            alert('No losers found.');
+        }
+    });
+});
+
 /* 
 document.getElementById('broadcastButton').addEventListener('click', () => {
     const channel = 'aukaat'; // Set your channel

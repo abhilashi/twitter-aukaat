@@ -4,7 +4,13 @@
   "description": "Auqaat hai kya?",
   "version": "1.0",
 
-  "permissions": ["activeTab", "tabs", "storage", "https://twitter.com/*"],
+  "permissions": [
+      "activeTab", 
+      "tabs", 
+      "storage", 
+      "https://twitter.com/*",
+      "https://gun-manhattan.herokuapp.com/gun"
+  ],
 
   "browser_action": {
     "default_popup": "popup.html",
@@ -23,7 +29,7 @@
   ],
   "background": {
       "scripts": ["background.js"],
-      "persistent": false
+      "persistent": true 
   },
   "icons": {
     "128": "images/logo.png"
