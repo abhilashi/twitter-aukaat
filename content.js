@@ -27,8 +27,8 @@ function showHandlesInPopup() {
             let importance = localAukaat[handle];
 
             // console.log(text);
-            // console.log(handle);
-            chrome.runtime.sendMessage({ type: "FoundHandle", data: handle });
+            console.log(handle);
+            chrome.runtime.sendMessage({ type: "AddHandleToPopup", data: handle });
         });
 
     });

@@ -16,7 +16,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 });
 
-
 // detect tab change
 chrome.tabs.onActivated.addListener((tabId, changeInfo, tab) => {
     console.log('Tab activated');

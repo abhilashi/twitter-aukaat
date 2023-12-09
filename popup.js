@@ -47,6 +47,17 @@ function adjustAukaat(listItem, adjustment) {
     var currentAukaat = parseInt(parts[1], 10);
     var newAukaat = currentAukaat + adjustment;
 
+    /*
+    chrome.storage.sync.get(['aukaat'], function(result) {
+        let storedData = result.aukaat || {};
+        storedData[parts[0]] = newAukaat;
+
+        chrome.storage.sync.set({ 'aukaat': storedData }, function() {
+            console.log(`Aukaat for handle ${handleName} saved`);
+        });
+    });
+    */
+
     console.log("adjustAukaat");
 
     listItem.textContent = parts[0] + ": " + newAukaat;
@@ -62,9 +73,26 @@ function adjustAukaat(listItem, adjustment) {
     addButtonsToListItem(listItem);
 }
 
+/* 
+document.getElementById('broadcastButton').addEventListener('click', () => {
+    const channel = 'aukaat'; // Set your channel
+    const message = document.getElementById('messageInput').value;
+
+    chrome.runtime.sendMessage({
+        action: "sendMessage",
+        channel: channel,
+        message: message
+    }, function(response) {
+        console.log(response.status);
+    });
+});
+*/
+
+
 // Example usage
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message.type === "FoundHandle") {
+    if (message.type === "AddHandleToPopup") {
+        console.log("message type AddHandleToPopup received");
         addHandleToList(message.data);
     }
 });
