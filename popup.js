@@ -50,11 +50,22 @@ function addHandleToList(handle) {
 
 
 function adjustAukaat(listItem, adjustment) {
+    console.log("adjustAukaat function called");
     var parts = listItem.textContent.split(": ");
     var currentAukaat = parseInt(parts[1], 10);
     var newAukaat = currentAukaat + adjustment;
 
-    console.log("adjustAukaat function called");
+    console.log("adjustAukaat on gun db");
+    var gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
+    gun.get('loserBoard').get(parts[0]).put({ username: parts[0], aukaat: newAukaat}, ack => {
+        if (ack.err) {
+            // Handle the error
+            console.error('Put operation failed:', ack.err);
+        } else {
+            // Operation succeeded
+            console.log('Put operation succeeded:', ack);
+        }
+    });
 
     listItem.textContent = parts[0] + ": " + newAukaat;
 
@@ -69,28 +80,36 @@ function adjustAukaat(listItem, adjustment) {
     addButtonsToListItem(listItem);
 }
 
-document.getElementById('loserButton').addEventListener('click', function() {
+document.getElementById('loserBoard').addEventListener('click', function() {
+    console.log("loser button clicked");
     // Initialize an empty array to hold the formatted loser data
     let losersData = [];
 
     // Fetch the list of losers from Gun DB
     // Replace with your actual Gun DB instance URL
     var gun = Gun('https://gun-manhattan.herokuapp.com/gun');
+    console.log("after loading gun instance");
     var loserBoard = gun.get('loserBoard');
+    console.log(loserBoard);
 
     loserBoard.map().once(function(data, username) {
+        console.log(data);
+        console.log(username);
         // Check if the data is valid and has the required properties
-        if (data && data.username && data.aukaat) {
+        if (data && data.username && data.aukaat < 15) {
             losersData.push(`${data.username}: ${data.aukaat}`);
         }
-
         // Display the list in an alert dialog
+    });
+
+    setTimeout(function() {
         if (losersData.length > 0) {
             alert('Losers:\n' + losersData.join('\n'));
         } else {
             alert('No losers found.');
         }
-    });
+    }, 1000);
+   
 });
 
 /* 

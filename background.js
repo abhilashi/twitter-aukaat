@@ -22,9 +22,20 @@ const Gun = window.Gun;
 gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
 
 // Function to update scores
+/*
 function updateAukaat(username, aukaat) {
-    gun.get('loserBoard').get(username).put({ username, aukaat});
+    gun.get('loserBoard').get(username).put({ username, aukaat }, ack => {
+        if (ack.err) {
+            // Handle the error
+            console.error('Put operation failed:', ack.err);
+        } else {
+            // Operation succeeded
+            console.log('Put operation succeeded:', ack);
+        }
+    });
+
 }
+*/
 
 // Listener for messages from popup or content scripts
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
